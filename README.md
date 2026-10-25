@@ -54,9 +54,13 @@ Each lab adds one stage to a single algorithmic-trading pipeline. Every lab runs
 | 17 | Event-driven automation | Event-Driven Automation: TradingView Webhook to Signal, Risk and Execution | 25 min | [Lab manual](labs/Lab17-tradingview-webhook/Lab17_Instructions.pdf) |
 | 18 | Diagnostics | Diagnostics Stage: Automated Bias Checks before Go-Live | 25 min | [Lab manual](labs/Lab18-diagnose-bias/Lab18_Instructions.pdf) |
 | 19 | Monitoring and reporting | Monitoring and Reporting Stage: Automated Tearsheet and Backtest-vs-Forward Report | 30 min | [Lab manual](labs/Lab19-performance-report/Lab19_Instructions.pdf) |
-| 20 | End-to-end pipeline | Capstone: One Command Runs the Pipeline End to End, with an Agentic Layer and Human Approval | 25 min | [Lab manual](labs/Lab20-agentic-capstone/Lab20_Instructions.pdf) |
+| 20 | End-to-end pipeline | Capstone: One Command Runs the Pipeline End to End, with a Multi AI Agents Workflow | 25 min | [Lab manual](labs/Lab20-agentic-capstone/Lab20_Instructions.pdf) |
 
 An optional [Prompt Library](labs/Prompt_Library.md) ([HTML](labs/Prompt_Library.html) · [PDF](labs/Prompt_Library.pdf)) gives one AI prompt per lab for learners who want the code behind each lab generated for them.
+
+## Multi AI agents workflow
+
+Lab 20 demonstrates the simulator's eight-agent trading workflow: a lead agent orchestrates finance research (Twelve Data candles, Yahoo Finance, Equibles), news sentiment (Reddit and NewsAPI), a trading strategy built on trend, momentum, volatility, VWAP, RSI and MACD, a long / short / null signal, a stock trader that places the paper order, performance analysis and a strategy review that feeds the next run. To build this workflow yourself from scratch, continue with [Build a Multi AI Agents Workflow for Stock Trading (C177)](https://www.tertiarycourses.com.sg/build-a-multi-ai-agents-workflow-for-stock-trading.html).
 
 ## Course software
 
@@ -66,12 +70,12 @@ The labs run in the course's Trading Simulator, [alfredang/algorithmic-trader-bo
 
 | Item | Files |
 |---|---|
-| Trainer slides | [PPTX](courseware/Slides_AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.pptx) · [PDF](courseware/Slides_AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.pdf) |
-| Lesson Plan | [DOCX](courseware/LP-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.docx) · [PDF](courseware/LP-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.pdf) |
-| Learner Guide | [DOCX](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.docx) · [PDF](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.pdf) · [Markdown](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.0.md) |
+| Trainer slides | [PPTX](courseware/Slides_AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.pptx) · [PDF](courseware/Slides_AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.pdf) |
+| Lesson Plan | [DOCX](courseware/LP-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.docx) · [PDF](courseware/LP-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.pdf) |
+| Learner Guide | [DOCX](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.docx) · [PDF](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.pdf) · [Markdown](courseware/LG-AI%20Powered%20Quantitative%20Trading%20Fundamentals_v2.1.md) |
 | Lab manuals | [`labs/`](labs/) - one `LabNN_Instructions.pdf` per lab |
 
-Courseware version 2.0 (24 October 2026). Download everything with **Code > Download ZIP**.
+Courseware version 2.1 (25 October 2026). Download everything with **Code > Download ZIP**.
 
 ## Distribution
 

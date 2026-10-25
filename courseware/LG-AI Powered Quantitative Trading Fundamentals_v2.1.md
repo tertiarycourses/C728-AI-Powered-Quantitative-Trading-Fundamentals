@@ -1,6 +1,6 @@
 # Learner Guide - AI Powered Quantitative Trading Fundamentals
 
-C728 | Version 2.0 (24 October 2026) | Tertiary Infotech Academy Pte Ltd
+C728 | Version 2.1 (25 October 2026) | Tertiary Infotech Academy Pte Ltd
 
 > Lion City Capital and every scenario in these materials are fictitious and for training only. All trading in this course is paper (simulated) trading. Nothing in these materials is investment advice or a recommendation to trade any security.
 
@@ -171,7 +171,7 @@ Open: <http://localhost:8000/#/integrations> (Integrations)
 
 **Step 3. Check the AI agent login**
 
-On the Integrations page read the OpenAI Codex and Claude cards. They are optional: without them the multi-agent desk runs its rule-based agents and every lab still works.
+On the Integrations page read the OpenAI Codex and Claude cards. They are optional: without them the multi-agent workflow runs its rule-based agents and every lab still works.
 
 Open: <http://localhost:8000/#/integrations> (Integrations > AI providers)
 
@@ -1103,7 +1103,7 @@ Open: <http://localhost:8000/#/backtest?strategy=pairs_cointegration&symbols=KO,
 - Configuration lives outside the code: symbols, parameters, position limits and API keys sit in a config file or environment variables, so a change is a reviewed configuration change rather than an edit to the logic.
 - Pre-trade risk controls: maximum position size, maximum order value, maximum daily loss, market-hours check, duplicate-order check and a kill switch that halts all trading - the controls regulators require of algorithmic traders.
 - Event sources: a scheduled job (every bar), a streaming feed (every quote), or an external alert - such as a TradingView alert sent by webhook to your own server, which then places the order through Alpaca.
-- Agentic extension: analyst agents produce a view, a trader agent proposes an order, and a risk-manager agent with hard limits approves or rejects it - the LLM never bypasses the coded risk checks.
+- Agentic extension: a lead agent orchestrates finance research and news sentiment agents, a trading strategy and a signal agent, a stock trader that places the paper order, and performance and strategy review agents that feed the next run - indicator values and order sizes are always computed in code, never by the LLM.
 - Every decision is logged: timestamp, inputs, signal, order request, broker response and fill - the audit trail for diagnosing problems and for compliance review.
 
 ### 4.2 Backtesting with Realistic Trading Costs
@@ -1393,66 +1393,87 @@ Open: <http://localhost:8000/#/analytics>
 **Expected in the app:** A PDF tearsheet and a written explanation of the backtest-vs-forward differences.
 
 
-### Lab 20: Capstone: One Command Runs the Pipeline End to End, with an Agentic Layer and Human Approval
+### Lab 20: Capstone: One Command Runs the Pipeline End to End, with a Multi AI Agents Workflow
 
 *25 min | stage: End-to-end pipeline | folder: [`labs/Lab20-agentic-capstone/`](../labs/Lab20-agentic-capstone/)*
 
-Run the whole pipeline end to end, get a human-approved proposal from the multi-agent desk, switch on the always-on agent, and create, backtest and forward-test your own strategy (from a template or written for you by AI).
+Run the whole pipeline end to end, run the 8-agent workflow (research, sentiment, strategy, signal, paper trade, performance analysis, strategy review) and watch its feedback loop, switch on the always-on agent, and turn your own idea into a strategy, then backtest and forward-test it.
 
 #### Lab Steps - In the Trading Simulator
 
 *No coding is needed. Make sure the Trading Simulator is running (installed once - see the guide 'Download, Install and Start the Trading Simulator Software') and open http://localhost:8000. In the sidebar open Course Labs > Lab 20: the app shows the same steps with a Go button that opens each page pre-filled. Every step works offline on the bundled demo data and the built-in paper broker.*
 
-**Step 1. Run the multi-agent desk**
+**Step 1. Run the multi-agent workflow**
 
-AI Agents > Run multi-agent analysis on NVDA, AAPL, SPY. Read each agent's card: three analysts, the two-round bull/bear debate, the trader, the risk manager, the hard-limit gate (code) and the portfolio manager.
+AI Agents > Multi-agent workflow: enter NVDA, AAPL, SPY and press 'Run the multi-agent workflow'. Watch the Agent flow: Lead Agent (plan) -> Finance Research and News Sentiment in parallel -> Trading Strategy -> Signal Generation -> Stock Trader -> Performance Analysis -> Strategy Review.
 
-Open: <http://localhost:8000/#/agents> (AI Agents > desk)
+Open: http://localhost:8000/#/agents (AI Agents > Multi-agent workflow)
 
-*Check:* Eight agent entries per symbol plus the code gate; the brain badge shows which provider or rules answered.
+Check: The run finishes with 8 agents per symbol (lead, performance analysis and strategy review once per run); the brain badge shows which provider, the rule brain or deterministic code answered.
 
-**Step 2. Human approval**
+**Step 2. Read each agent's card**
 
-Approve (or reject) the proposals. Approved buys become paper bracket orders in the regular session or extended-hours limit orders overnight.
+Pick each symbol tab and read the eight cards in flow order: the lead's plan and summary; Finance Research (1-min / 15-min / 1-hour / daily candles, Yahoo Finance ratios, Equibles data); News Sentiment (Reddit and NewsAPI scores and notable items); Trading Strategy (the algorithm votes computed in code - trend, momentum, volatility, VWAP, RSI, MACD - and the chosen weights); Signal Generation (long, short or null); Stock Trader; Performance Analysis; Strategy Review.
 
-Open: <http://localhost:8000/#/agents>
+Open: http://localhost:8000/#/agents
 
-*Check:* Run status 'executed' and the orders visible in Paper Trading (source agent).
+Check: For one symbol you can explain how the composite score became the signal and which algorithms drove it.
 
-**Step 3. Always-on agent**
+**Step 3. Check the order on Alpaca paper**
+
+Read the Stock Trader card and the 'Paper orders sent' table: long = buy, short = sell short (an opposite position is closed first), null = no order. Orders are placed automatically - there is no approval step. Open Paper Trading > Orders (source agent) and, with Alpaca keys, your Alpaca paper dashboard.
+
+Open: http://localhost:8000/#/trading?tab=orders
+
+Check: Every long / short signal has a matching paper order (or a recorded broker error, e.g. a symbol that cannot be shorted); null signals have none.
+
+**Step 4. Read the performance panel and the strategy review guidance**
+
+AI Agents > Performance: total return, daily returns, Sharpe, max drawdown, win rate, trades and exposure of the agents' own paper trading (also on the Dashboard). Then AI Agents > Strategy guidance: the weights, thresholds and notes the Strategy Review Agent wrote.
+
+Open: http://localhost:8000/#/agents?tab=performance
+
+Check: You can explain each metric and say which algorithms the review now prefers and why.
+
+**Step 5. Run it again to see the feedback loop**
+
+Run the workflow again on the same symbols. On the Trading Strategy card check 'Guidance from the Strategy Review of run #...' and compare the weights and thresholds with the first run; Strategy guidance > history shows each review.
+
+Open: http://localhost:8000/#/agents
+
+Check: The second run's Trading Strategy agent used the guidance written by the first run's review, and a new review was saved.
+
+**Step 6. Always-on agent**
 
 AI Agents > Always-on agent: enable it with a 60-minute wake-up (the worker must run), or press 'Wake it now'. Check Memory.
 
-Open: <http://localhost:8000/#/agents>
+Open: http://localhost:8000/#/agents
 
-*Check:* A new always_on run and memory notes appear.
+Check: A new always_on run and memory notes (signals, decisions, guidance) appear.
 
-**Step 4. Create your own strategy**
+**Step 7. Turn your own idea into a strategy**
 
-Strategy Builder: start from a template and change only its parameters - or describe your idea in the Lab 20 prompt of the Prompt Library and paste the code the AI writes. Validate (look-ahead check), Save.
+Idea > Strategy: describe your own trading idea in one or two sentences (signal, when to buy, when to sell) and press 'Turn my idea into a strategy'. Read how the app understood it, then press 'Test it now'. No coding - the app writes and checks the code.
 
-Open: <http://localhost:8000/#/builder?template=ema_rsi> (Strategy Builder (EMA + RSI template))
+Open: http://localhost:8000/#/builder (Idea > Strategy)
 
-*Check:* Your strategy appears in the Strategy Library with an auto-generated parameter form.
+Check: A READY strategy with a PASS look-ahead check, your rules listed in plain English, and a backtest result.
 
-**Step 5. Backtest, diagnose and forward-test it**
+**Step 8. Backtest, diagnose and forward-test it**
 
 Backtest it, run Diagnostics, then create a paper bot for it and start it.
 
-Open: <http://localhost:8000/#/trading?new=1>
+Open: http://localhost:8000/#/trading?new=1
 
-*Check:* Pipeline Map > Strategy lifecycle for your strategy shows the gates it passed.
+Check: Pipeline Map > Strategy lifecycle for your strategy shows the gates it passed.
 
-**Step 6. End-to-end on the Pipeline Map**
+**Step 9. End-to-end on the Pipeline Map**
 
 Open the Pipeline Map and press 'Run a bot cycle'. Then switch to 'Strategy lifecycle'.
 
-Open: <http://localhost:8000/#/pipeline> (Pipeline Map)
+Open: http://localhost:8000/#/pipeline (Pipeline Map)
 
-*Check:* All 14 stages have run; you can walk a colleague through each stage.
-
-**Expected in the app:** A Pipeline Map with every stage green, an approved agent proposal with its decision trace, and your custom strategy trading on paper.
-
+Check: All 14 stages have run; you can walk a colleague through each stage.
 
 ## References
 
